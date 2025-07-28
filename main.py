@@ -19,9 +19,7 @@ def get_weather(lat, lon):
         print("Ошибка при получении данных о погоде.")
 
 # Координаты Ростова-на-Дону
-coordinates_latitude = int(input("Введите координаты широты: "))
-coordinates_longitude = int(input("введите координаты долготы: "))
-latitude = coordinates_latitude
-longitude = coordinates_longitude
+coordinates_latitude = float(input("Введите координаты широты: "))
+coordinates_longitude = float(input("введите координаты долготы: "))
 
-get_weather(latitude, longitude)
+get_weather(coordinates_latitude, coordinates_longitude)
