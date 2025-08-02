@@ -1,5 +1,21 @@
 import requests
 
+def get_coordinates(city, api_key):
+    url = f"https://api.opencagedata.com/geocode/v1/json?q={city}&key={api_key}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        if data['results']:
+            lat = data['results'][0]['geometry']['lat']
+            lon = data['results'][0]['geometry']['lng']
+            return lat, lon
+        else:
+            print("Город не найден.")
+            return None, None
+    else:
+        print("Ошибка при получении координат.")
+        return None, None
+
 def get_weather(lat, lon):
     url = (
         f"https://api.open-meteo.com/v1/forecast"
@@ -18,8 +34,15 @@ def get_weather(lat, lon):
     else:
         print("Ошибка при получении данных о погоде.")
 
-# Координаты Ростова-на-Дону
-coordinates_latitude = float(input("Введите координаты широты: "))
-coordinates_longitude = float(input("введите координаты долготы: "))
+# Ввод названия города
+city = input("Введите название города: ")
 
-get_weather(coordinates_latitude, coordinates_longitude)
+# Ваш API-ключ для OpenCage
+api_key = "0712f554deb84d87b3d5a0fe0c494c27"
+
+# Получение координат
+latitude, longitude = get_coordinates(city, api_key)
+
+# Если координаты найдены, получить погоду
+if latitude is not None and longitude is not None:
+    get_weather(latitude, longitude)
